@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WMS SBY">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>OTOPROJECT WMS SBY</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;background:#101827;font-family:Arial,sans-serif}
+    body{display:flex;align-items:center;justify-content:center;padding:18px}
+    .app{width:min(430px,100%);text-align:center;color:#fff}
+    .logo{width:96px;height:96px;margin:0 auto 20px;border-radius:24px;box-shadow:0 12px 35px rgba(0,0,0,.3)}
+    h1{font-size:24px;margin:0 0 8px}
+    p{margin:0 0 22px;color:#cbd5e1;line-height:1.5}
+    button{width:100%;border:0;border-radius:14px;padding:15px 18px;font-size:16px;font-weight:700;background:#e31b23;color:#fff}
+    .install{display:none;margin-top:12px;background:#fff;color:#101827}
+    .note{font-size:12px;margin-top:16px;color:#94a3b8}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <img class="logo" src="icons/icon-192.png" alt="WMS SBY">
+    <h1>OTOPROJECT WMS SBY</h1>
+    <p>Warehouse Management System<br>Surabaya</p>
+    <button id="open">OPEN WMS</button>
+    <button id="install" class="install">INSTALL APP</button>
+    <div class="note">Tambahkan ke Home Screen untuk akses seperti aplikasi.</div>
+  </main>
+
+<script>
+const WMS_URL = 'https://script.google.com/macros/s/AKfycbziW5yaz8RSz-LLaZKx8xfCGotzrN06UfClCs9nOvZPGKaz-gfPTce_Vkdz39YdS4IZ/exec';
+
+document.getElementById('open').addEventListener('click', () => {
+  window.location.href = WMS_URL;
+});
+
+let deferredPrompt = null;
+const installBtn = document.getElementById('install');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
+</script>
+</body>
+</html>
